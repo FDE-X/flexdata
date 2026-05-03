@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Nexus - English / Malay Bilingual Landing Page</title>
+    <link rel="stylesheet" href="anime.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">Anime Nexus</span>
+            </div>
+            <div class="nav-right">
+                <div class="time-info">
+                    <span class="day" id="dayDisplay">Sunday</span>
+                    <span class="separator">•</span>
+                    <span class="time" id="timeDisplay">12:00 AM</span>
+                </div>
+                <button class="language-toggle" id="languageToggle" aria-label="Toggle Language">
+                    <span class="lang-code" id="langCode">EN</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <!-- Animated Background -->
+        <div class="background-wrapper">
+            <canvas id="particleCanvas" class="particle-canvas"></canvas>
+            <div class="gradient-overlay"></div>
+            <div class="stars-background"></div>
+        </div>
+
+        <!-- Floating Characters Container -->
+        <div class="characters-container">
+            <div class="character flying-char-1">
+                <div class="character-avatar avatar-1"></div>
+                <div class="glow-effect glow-1"></div>
+                <div class="trail-effect trail-1"></div>
+            </div>
+            <div class="character flying-char-2">
+                <div class="character-avatar avatar-2"></div>
+                <div class="glow-effect glow-2"></div>
+                <div class="trail-effect trail-2"></div>
+            </div>
+            <div class="character flying-char-3">
+                <div class="character-avatar avatar-3"></div>
+                <div class="glow-effect glow-3"></div>
+                <div class="trail-effect trail-3"></div>
+            </div>
+            <div class="character flying-char-4">
+                <div class="character-avatar avatar-4"></div>
+                <div class="glow-effect glow-4"></div>
+                <div class="trail-effect trail-4"></div>
+            </div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="hero-content">
+            <h1 class="hero-title" id="heroTitle">Welcome to Anime Nexus</h1>
+            <p class="hero-subtitle" id="heroSubtitle">Experience the power of anime characters in action</p>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" id="startBtn">
+                    <span class="btn-text">Start Journey</span>
+                    <span class="btn-icon">→</span>
+                </button>
+                <button class="btn btn-secondary" id="exploreBtn">
+                    <span class="btn-text">Explore More</span>
+                    <span class="btn-icon">✦</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Floating Elements -->
+        <div class="floating-element element-1"></div>
+        <div class="floating-element element-2"></div>
+        <div class="floating-element element-3"></div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-container">
+            <h2 class="section-title" id="featuresTitle">Features</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title" id="feature1Title">Dynamic Graphics</h3>
+                    <p class="feature-description" id="feature1Desc">Stunning anime character animations with realistic effects</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title" id="feature2Title">Smooth Performance</h3>
+                    <p class="feature-description" id="feature2Desc">Optimized for all devices with 60 FPS animations</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3 class="feature-title" id="feature3Title">Multilingual Support</h3>
+                    <p class="feature-description" id="feature3Desc">Seamlessly switch between English and Malay</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3 class="feature-title" id="feature4Title">Interactive Elements</h3>
+                    <p class="feature-description" id="feature4Desc">Engage with responsive and interactive components</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title" id="ctaTitle">Ready to Begin?</h2>
+            <p class="cta-description" id="ctaDesc">Join thousands of anime enthusiasts worldwide</p>
+            <button class="btn btn-large" id="joinBtn">
+                <span id="joinBtnText">Join Now</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p id="footerText">© <span id="yearSpan">2024</span> Anime Nexus. All rights reserved.</p>
+            <p id="footerCredits">Crafted with ❤️ for anime lovers worldwide</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
