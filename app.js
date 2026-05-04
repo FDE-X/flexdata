@@ -640,7 +640,7 @@ async function signOut(){
   loginScreen.style.display = 'flex';
   loginScreen.style.opacity = '1';
   const loginFooter = document.querySelector('.login-footer');
-  if(loginFooter) loginFooter.innerHTML = 'Sistem ini dilindungi. Akses terhad kepada kakitangan yang diberi kuasa sahaja.<br>Jabatan Perkhidmatan Veterinar &amp; Penyembelihan &copy; 2025';
+  if(loginFooter) loginFooter.innerHTML = 'Sistem ini dilindungi. Akses terhad kepada kakitangan yang diberi kuasa sahaja.<br>Jabatan Perkhidmatan Veterinar Malaysia &copy; 2025';
   resetLoginButton();
   showToast('Log keluar berjaya');
 }
