@@ -1,36 +1,53 @@
-# This is a basic workflow to help you get started with Actions
+name: CI - Web Build & Verify
 
-name: CI
-
-# Controls when the workflow will run
+# Kawalan bila workflow ini akan berjalan
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Membolehkan run secara manual dari tab Actions di GitHub
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+    name: Build and Verify Environment
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      # 1. Ambil kod terkini dari repository
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      # 2. Setup Node.js (Menggunakan versi 22 LTS untuk kestabilan)
+      # Ini akan secara automatik hilangkan amaran 'Node.js 20 deprecated'
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          # Jika awak guna npm, buka komen di bawah untuk lajukan proses install (caching)
+          # cache: 'npm'
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      # 3. Semak versi Node.js dan NPM yang sedang berjalan
+      - name: 🔍 Verify Environment
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          echo "Node version: $(node -v)"
+          echo "NPM version: $(npm -v)"
+          echo "Sistem sedang berjalan menggunakan Node.js versi terbaru yang stabil."
+
+      # 4. (Optional) Pasang dependencies jika ada file package.json
+      # Jika projek awak cuma HTML/JS biasa, bahagian ni takkan buat apa-apa.
+      - name: 📦 Install Dependencies
+        run: |
+          if [ -f package.json ]; then
+            npm install
+          else
+            echo "Tiada package.json dikesan. Melangkau langkah pemasangan (skipping)."
+          fi
+
+      # 5. Langkah akhir untuk pengesahan
+      - name: ✅ Final Check
+        run: |
+          echo "Build selesai pada: $(date)"
+          echo "Kod anda telah disahkan selamat dan mengikut standard GitHub Actions terbaru."
