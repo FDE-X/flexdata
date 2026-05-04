@@ -1,141 +1,667 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime Nexus - English / Malay Bilingual Landing Page</title>
-    <link rel="stylesheet" href="anime.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistem Penguatkuasaan | JPVS Portal v1.0</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'></text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Noto+Sans+Malay:wght@400;600&family=Orbitron:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span class="logo-icon">⚡</span>
-                <span class="logo-text">Anime Nexus</span>
-            </div>
-            <div class="nav-right">
-                <div class="time-info">
-                    <span class="day" id="dayDisplay">Sunday</span>
-                    <span class="separator">•</span>
-                    <span class="time" id="timeDisplay">12:00 AM</span>
-                </div>
-                <button class="language-toggle" id="languageToggle" aria-label="Toggle Language">
-                    <span class="lang-code" id="langCode">EN</span>
-                </button>
-            </div>
+
+<!-- Background layers -->
+<div class="bg-anime"></div>
+<div class="particles" id="particles"></div>
+<div class="transition-overlay" id="transOverlay"></div>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+<!-- 
+     LOGIN SCREEN
+ -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-bg"></div>
+  <div class="login-card">
+
+    <div class="login-logos">
+      <div class="login-logo" title="Jata Negara">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Coat_of_arms_of_Malaysia.svg/250px-Coat_of_arms_of_Malaysia.svg.png" alt="Jata Negara">
+      </div>
+      <div class="login-logo" title="JPVS">
+        <img src="https://github.com/ttv4u1/KP/raw/main/DVS.svg" alt="JPVS">
+      </div>
+      <div class="login-logo" title="Penguatkuasaan">
+        <img src="https://github.com/ttv4u1/KP/raw/main/Logo%20Penguatkuasa.png" alt="Penguatkuasaan">
+      </div>
+    </div>
+
+    <div class="login-title">SISTEM PENGUATKUASAAN</div>
+    <div class="login-subtitle">
+      Jabatan Perkhidmatan Veterinar &amp; Penyembelihan<br>
+      <span style="color:var(--accent)">Portal Pengurusan Bersepadu v1.0</span>
+    </div>
+
+    <button class="btn-google" onclick="doLogin()">
+      <svg class="google-icon" viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+      </svg>
+      Log Masuk dengan Google
+    </button>
+
+    <div class="login-footer">
+      Sistem ini dilindungi. Akses terhad kepada kakitangan yang diberi kuasa sahaja.<br>
+      Jabatan Perkhidmatan Veterinar &amp; Penyembelihan &copy; 2025
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     APP SHELL (hidden until login)
+════════ -->
+<div id="appShell" style="display:none;">
+
+  <!-- Announcement Banner -->
+  <div class="ann-banner" id="annBanner">
+    <span class="ann-label"> PENGUMUMAN:</span>
+    <span class="ann-scroll" id="annText">Selamat datang ke Portal Penguatkuasaan JPVS. Sila kemaskini rekod anda dengan segera. | Welcome to JPVS Enforcement Portal.</span>
+  </div>
+
+  <!--  NAVBAR  -->
+  <nav id="mainNav">
+    <div class="nav-left">
+      <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="nav-logos">
+      <div class="nav-logo-item" title="Jata Negara"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Coat_of_arms_of_Malaysia.svg/250px-Coat_of_arms_of_Malaysia.svg.png" alt="Jata Negara"></div>
+      <div class="nav-logo-item" title="JPVS"><img src="https://github.com/ttv4u1/KP/raw/main/DVS.svg" alt="JPVS"></div>
+      <div class="nav-logo-item" title="Penguatkuasaan"><img src="https://github.com/ttv4u1/KP/raw/main/Logo%20Penguatkuasa.png" alt="Penguatkuasaan"></div>
+      </div>
+      <div class="nav-brand">
+        <div class="nav-title">Sistem Pengurusan Data FirFleet</div>
+        <div class="nav-subtitle">Portal Pengurusan Bersepadu</div>
+      </div>
+      <span class="version-badge">v1.0</span>
+    </div>
+
+    <div class="nav-actions">
+      <div class="nav-clock">
+        <div class="clock-display" id="navClock">--:--:--</div>
+        <div class="clock-period" id="navPeriod">--</div>
+      </div>
+      <button class="lang-toggle" id="langBtn" onclick="toggleLang()"> EN</button>
+      <div class="user-profile" id="userProfile" onclick="toggleProfileMenu()">
+        <div class="user-avatar" id="userAvatar">?</div>
+        <div class="user-name" id="userName">...</div>
+      </div>
+      <button id="logoutBtn" class="btn btn-danger btn-sm btn-icon" onclick="signOut()" title="Log Keluar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Log Keluar
+      </button>
+    </div>
+  </nav>
+
+  <!--  SIDEBAR  -->
+  <div class="sidebar" id="sidebar">
+
+    <a class="home-btn" onclick="signOut()" title="Kembali / Log Keluar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Halaman Utama
+    </a>
+
+    <div class="nav-section-title" data-i18n="nav.main">UTAMA</div>
+    <div class="nav-item active" onclick="showSection('dashboard',this)" data-i18n="nav.dashboard">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+      </div>
+      Dashboard
+    </div>
+
+    <div class="nav-section-title" data-i18n="nav.records">REKOD</div>
+    <div class="nav-item" onclick="showSection('wfb',this)">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </div>
+      <span data-i18n="nav.wfb">Kad Waktu (WFB)</span>
+    </div>
+    <div class="nav-item" onclick="showSection('travel',this)">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <span data-i18n="nav.travel">Log Perjalanan</span>
+    </div>
+    <div class="nav-item" onclick="showSection('enforcement',this)">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      <span data-i18n="nav.enforcement">Data Penguatkuasa</span>
+    </div>
+
+    <div class="nav-section-title" data-i18n="nav.data">DATA &amp; EKSPORT</div>
+    <div class="nav-item" onclick="showSection('data',this)">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <ellipse cx="12" cy="5" rx="9" ry="3"/>
+          <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+        </svg>
+      </div>
+      <span data-i18n="nav.data">Data &amp; Muat Turun</span>
+    </div>
+
+    <div class="nav-section-title" data-i18n="nav.admin">PENTADBIRAN</div>
+    <div class="nav-item" id="adminNavItem" onclick="showSection('admin',this)">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <span data-i18n="nav.admin">Super Admin</span>
+    </div>
+
+  </div><!-- end sidebar -->
+
+  <!--  MAIN CONTENT  -->
+  <div class="main">
+
+    <!-- ═══════════════
+         DASHBOARD
+    ════════════════════════════════════════════════════ -->
+    <div class="section active" id="sec-dashboard">
+
+      <div class="dashboard-hero reveal">
+        <div>
+          <div class="hero-greeting" id="greetingText">Selamat Pagi, Pengguna</div>
+          <div class="hero-role">
+            <span class="realtime-dot"></span>
+            <span id="userRoleDisplay">Pegawai Penguatkuasa</span>  JPVS Portal
+          </div>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="showSection('wfb',null)">Rekod Waktu</button>
+            <button class="btn btn-accent"  onclick="showSection('enforcement',null)">Tambah Kes</button>
+            <button class="btn btn-gold"    onclick="showSection('travel',null)">Log Perjalanan</button>
+          </div>
         </div>
-    </nav>
+        <div class="hero-clock">
+          <div class="clock-display" id="dashClock">--:--:--</div>
+          <div class="clock-period" id="dashPeriod">--</div>
+          <div class="clock-date"   id="dashDate">--</div>
+        </div>
+      </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <!-- Animated Background -->
-        <div class="background-wrapper">
-            <canvas id="particleCanvas" class="particle-canvas"></canvas>
-            <div class="gradient-overlay"></div>
-            <div class="stars-background"></div>
+      <div class="stats-grid reveal">
+        <div class="stat-card"><div class="stat-number" id="statCases">0</div><div class="stat-label">Kes Bulan Ini</div></div>
+        <div class="stat-card"><div class="stat-number" id="statRampasan">RM 0</div><div class="stat-label">Nilai Rampasan</div></div>
+        <div class="stat-card"><div class="stat-number" id="statTrips">0</div><div class="stat-label">Perjalanan</div></div>
+        <div class="stat-card"><div class="stat-number" id="statKM">0 km</div><div class="stat-label">Jumlah KM</div></div>
+      </div>
+
+      <div class="dash-grid-2 reveal">
+        <div class="card">
+          <div class="card-label">Rampasan Bulan Ini</div>
+          <div class="chart-box" id="dashChart"></div>
+        </div>
+        <div class="card">
+          <div class="card-label">Pengumuman Terkini</div>
+          <div class="ann-display" id="annDisplay"></div>
+        </div>
+      </div>
+
+    </div><!-- end sec-dashboard -->
+
+    <!-- 
+         KAD WAKTU (WFB)
+     -->
+    <div class="section" id="sec-wfb">
+
+      <div class="page-header reveal">
+        <div class="page-title">Kad Mencatat Waktu (WFB)</div>
+        <div class="page-subtitle">Rekod kehadiran dan waktu bekerja  <span id="wfbMonth">--</span></div>
+      </div>
+
+      <div class="card reveal mb-6">
+        <div class="form-grid">
+          <div class="form-group"><label>Nama</label><input type="text" id="wfbNama" placeholder="Nama Penuh" onchange="triggerWFBHeaderSave()"></div>
+          <div class="form-group"><label>Kem./Jab.</label><input type="text" id="wfbKem" placeholder="Kementerian/Jabatan" onchange="triggerWFBHeaderSave()"></div>
+          <div class="form-group"><label>Bahagian/Seksyen</label><input type="text" id="wfbBahagian" placeholder="Bahagian" onchange="triggerWFBHeaderSave()"></div>
+          <div class="form-group"><label>Bulan</label><input type="month" id="wfbBulan" onchange="renderWFB()"></div>
+        </div>
+      </div>
+
+      <div class="export-bar reveal">
+        <span class="export-label">Eksport:</span>
+        <button class="btn btn-success btn-sm" onclick="exportWFB('csv')">CSV</button>
+        <button class="btn btn-primary btn-sm" onclick="exportWFB('excel')">Excel</button>
+        <button class="btn btn-accent  btn-sm" onclick="exportWFB('json')">JSON</button>
+        <button class="btn btn-gold    btn-sm" onclick="window.print()">Cetak</button>
+      </div>
+
+      <div class="timecard-grid reveal" id="wfbGrid"></div>
+
+    </div><!-- end sec-wfb -->
+
+    <!-- 
+         LOG PERJALANAN
+     -->
+    <div class="section" id="sec-travel">
+
+      <div class="page-header reveal">
+        <div class="page-title">Log Perjalanan</div>
+        <div class="page-subtitle">Rekod perjalanan rasmi  auto-kira jarak &amp; kos</div>
+      </div>
+
+      <div class="card reveal mb-6">
+        <div class="card-header-row">
+          <div class="card-label">Tambah Rekod Perjalanan Baharu</div>
+          <button class="btn btn-primary btn-sm" onclick="openTravelModal()">+ Tambah</button>
+        </div>
+        <div class="tlog-info-grid">
+          <div class="stat-card"><div class="stat-number" id="tlogTotalKM">0</div><div class="stat-label">Jumlah KM</div></div>
+          <div class="stat-card"><div class="stat-number" id="tlogTotalKos">RM 0</div><div class="stat-label">Jumlah Kos</div></div>
+          <div class="stat-card"><div class="stat-number" id="tlogTotalTrips">0</div><div class="stat-label">Perjalanan</div></div>
+          <div class="stat-card"><div class="stat-number" id="tlogTotalLiter">0 L</div><div class="stat-label">Jumlah Liter</div></div>
+        </div>
+      </div>
+
+      <div class="export-bar reveal">
+        <span class="export-label">Eksport:</span>
+        <button class="btn btn-success btn-sm" onclick="exportTravel('csv')">CSV</button>
+        <button class="btn btn-primary btn-sm" onclick="exportTravel('excel')">Excel</button>
+        <button class="btn btn-accent  btn-sm" onclick="exportTravel('json')">JSON</button>
+        <button class="btn btn-gold    btn-sm" onclick="window.print()">Cetak</button>
+      </div>
+
+      <div class="table-wrapper reveal">
+        <table id="travelTable">
+          <thead><tr>
+            <th>BIL</th><th>TARIKH</th><th>MASA PERGI</th><th>MASA BALIK</th><th>PEMANDU</th>
+            <th>TUJUAN</th><th>PELULUS</th><th>ODO MULA</th><th>ODO AKHIR</th><th>JARAK KM</th>
+            <th>LITER</th><th>KOS (RM)</th><th>NO RESIT</th><th>NOTA</th><th>TINDAKAN</th>
+          </tr></thead>
+          <tbody id="travelBody"></tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td colspan="9" class="text-right text-sm">JUMLAH:</td>
+              <td id="tlogFtKM">0</td>
+              <td id="tlogFtL">0</td>
+              <td id="tlogFtKos">RM 0</td>
+              <td colspan="3"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+    </div><!-- end sec-travel -->
+
+    <!-- ══════════════════════════════════
+         SECTION: DATA PENGUATKUASA
+    ═══════════════════════════════════════════════════════ -->
+    <div class="section" id="sec-enforcement">
+      <div class="page-header reveal">
+        <div class="page-title">Data Penguatkuasa</div>
+        <div class="page-subtitle">Rekod rampasan dan kes penguatkuasaan  <span class="realtime-dot"></span>Realtime</div>
+      </div>
+
+      <div class="enf-controls reveal">
+        <input type="text" class="search-input" id="enfSearch" placeholder="Cari kes, lokasi, penguatkuasa..." oninput="filterEnf()">
+        <select class="filter-select" id="enfFilterBulan" onchange="filterEnf()">
+          <option value="">Semua Bulan</option>
+        </select>
+        <button class="btn btn-primary" onclick="openEnfModal()">+ Tambah Kes</button>
+      </div>
+
+      <div class="export-bar reveal">
+        <span class="export-label">Eksport:</span>
+        <button class="btn btn-success btn-sm" onclick="exportEnf('csv')">CSV</button>
+        <button class="btn btn-primary btn-sm" onclick="exportEnf('excel')">Excel</button>
+        <button class="btn btn-accent btn-sm" onclick="exportEnf('json')">JSON</button>
+        <button class="btn btn-danger btn-sm" onclick="exportEnf('txt')">Notepad</button>
+        <button class="btn btn-gold btn-sm" onclick="window.print()">Cetak</button>
+      </div>
+
+      <div class="table-wrapper reveal table-scroll-y">
+        <table id="enfTable">
+          <thead>
+            <tr>
+              <th>BIL</th><th>TAHUN</th><th>BULAN</th><th>PENGUATKUASA</th><th>KATEGORI KES</th>
+              <th>NO REPOT POLIS</th><th>TARIKH</th><th>MASA</th><th>LOKASI</th><th>KESALAHAN</th>
+              <th>UNDANG-UNDANG</th><th>NO KES IP</th><th>JENIS RAMPASAN</th>
+              <th>LEMBU</th><th>KERBAU</th><th>KAMBING</th><th>BEBIRI</th><th>BABI</th><th>AYAM</th>
+              <th>K.LEMBU</th><th>K.KERBAU</th><th>K.KAMBING</th><th>K.BABI</th><th>K.BABI S/B</th>
+              <th>K.AYAM</th><th>P.ITIK S/B</th><th>P.AYAM S/B</th><th>P.BABI S/B</th>
+              <th>HAI TIN</th><th>ANJING</th><th>KUCING</th><th>ARNAB</th><th>BURUNG</th>
+              <th>HAMSTER</th><th>LAIN-LAIN</th>
+              <th>JML KDR</th><th>JML PENGANGKUT</th>
+              <th>RM (EKOR/KG)</th><th>RM (KDR)</th><th>RM (PENGANGKUT)</th>
+              <th>RM (LAIN)</th><th>JML NILAI RM</th>
+              <th>KES SERAHAN</th><th>CATATAN</th><th>TINDAKAN</th>
+            </tr>
+          </thead>
+          <tbody id="enfBody"></tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td colspan="13" class="text-right">JUMLAH:</td>
+              <td id="e-lembu">0</td><td id="e-kerbau">0</td><td id="e-kambing">0</td>
+              <td id="e-bebiri">0</td><td id="e-babi">0</td><td id="e-ayam">0</td>
+              <td id="e-klembu">0</td><td id="e-kkerbau">0</td><td id="e-kkambing">0</td>
+              <td id="e-kbabi">0</td><td id="e-kbabisb">0</td><td id="e-kayam">0</td>
+              <td id="e-pitik">0</td><td id="e-payam">0</td><td id="e-pbabi">0</td>
+              <td id="e-tin">0</td><td id="e-anjing">0</td><td id="e-kucing">0</td>
+              <td id="e-arnab">0</td><td id="e-burung">0</td><td id="e-hamster">0</td>
+              <td id="e-lain">0</td><td id="e-jkdr">0</td><td id="e-jpengangkut">0</td>
+              <td id="e-rmek">RM0</td><td id="e-rmkdr">RM0</td><td id="e-rmpengangkut">RM0</td>
+              <td id="e-rmlain">RM0</td><td id="e-rmnilai">RM0</td>
+              <td colspan="3"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div><!-- end sec-enforcement -->
+
+    <!-- 
+         SECTION: DATA & EKSPORT
+    ═══════════════════════════════════════════════════════ -->
+    <div class="section" id="sec-data">
+      <div class="page-header reveal">
+        <div class="page-title">Data &amp; Muat Turun</div>
+        <div class="page-subtitle">Semua rekod, fail upload, dan eksport sistem</div>
+      </div>
+
+      <div class="tab-bar reveal">
+        <button class="tab active" onclick="switchDataTab('uploads',this)">Fail Upload</button>
+        <button class="tab" onclick="switchDataTab('summary',this)">Ringkasan</button>
+        <button class="tab" onclick="switchDataTab('export',this)">Eksport Penuh</button>
+      </div>
+
+      <!-- Tab: Uploads -->
+      <div id="dataTab-uploads" class="reveal">
+        <div class="upload-grid">
+
+          <div class="card">
+            <div class="card-label">Resit Minyak &amp; TNG</div>
+            <div class="upload-zone" onclick="document.getElementById('uploadMinyak').click()">
+              <input type="file" id="uploadMinyak" accept="image/*,.pdf" multiple onchange="handleUpload(this,'minyak')">
+              <div class="upload-icon"></div>
+              <div class="upload-text">Klik atau seret fail ke sini<br><small>JPG, PNG, PDF  Maks 10MB</small></div>
+            </div>
+            <div id="uploadMinyakList" class="upload-list"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-label">Odometer &amp; Gambar Kenderaan</div>
+            <div class="upload-zone" onclick="document.getElementById('uploadOdo').click()">
+              <input type="file" id="uploadOdo" accept="image/*" multiple onchange="handleUpload(this,'odo')">
+              <div class="upload-icon"></div>
+              <div class="upload-text">Klik atau seret fail ke sini<br><small>JPG, PNG  Maks 10MB</small></div>
+            </div>
+            <div id="uploadOdoList" class="upload-list"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-label">Fail Kes &amp; Laporan</div>
+            <div class="upload-zone" onclick="document.getElementById('uploadKes').click()">
+              <input type="file" id="uploadKes" accept="image/*,.pdf,.doc,.docx" multiple onchange="handleUpload(this,'kes')">
+              <div class="upload-icon"></div>
+              <div class="upload-text">Klik atau seret fail ke sini<br><small>JPG, PNG, PDF, DOC  Maks 20MB</small></div>
+            </div>
+            <div id="uploadKesList" class="upload-list"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tab: Summary -->
+      <div id="dataTab-summary" style="display:none;" class="reveal">
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-number" id="sumTotalKes">0</div><div class="stat-label">Jumlah Kes</div></div>
+          <div class="stat-card"><div class="stat-number" id="sumNilaiRM">RM 0</div><div class="stat-label">Nilai Rampasan</div></div>
+          <div class="stat-card"><div class="stat-number" id="sumPerjalanan">0</div><div class="stat-label">Perjalanan</div></div>
+          <div class="stat-card"><div class="stat-number" id="sumFail">0</div><div class="stat-label">Fail Upload</div></div>
+        </div>
+        <div class="card" style="margin-top:1.5rem;">
+          <div class="card-label">Carta Rampasan Mengikut Jenis</div>
+          <div class="chart-box" id="summaryChart"></div>
+        </div>
+      </div>
+
+      <!-- Tab: Export -->
+      <div id="dataTab-export" style="display:none;" class="reveal">
+        <div class="card">
+          <div class="card-label" style="color:var(--accent);">Eksport Semua Data</div>
+          <div class="export-btn-grid">
+            <button class="btn btn-success"  onclick="exportAll('csv')">Eksport CSV</button>
+            <button class="btn btn-primary"  onclick="exportAll('excel')">Eksport Excel</button>
+            <button class="btn btn-accent"   onclick="exportAll('json')">Eksport JSON</button>
+            <button class="btn btn-danger"   onclick="exportAll('txt')">Eksport Notepad</button>
+            <button class="btn btn-gold"     onclick="exportAll('android')">Android Note</button>
+            <button class="btn btn-outline"  onclick="exportAll('ios')">iPhone Note</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end sec-data -->
+
+    <!-- ════════════════════════════
+         SECTION: SUPER ADMIN
+    ═════════════════════════════════════ -->
+    <div class="section" id="sec-admin">
+      <div class="page-header reveal">
+        <div class="page-title">Super Admin</div>
+        <div class="page-subtitle">Pengurusan pengguna, peranan, pengumuman sistem, dan data Baserow realtime</div>
+      </div>
+
+      <div class="alert alert-warning reveal">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        Panel ini hanya untuk Super Admin. Perubahan akan berkuat kuasa serta-merta.
+      </div>
+
+      <div class="admin-grid reveal">
+
+        <div class="admin-card">
+          <div class="admin-card-title">Senarai Pengguna</div>
+          <div id="userListAdmin"></div>
+          <button class="btn btn-primary btn-sm btn-full" onclick="openAddUserModal()">+ Tambah Pengguna</button>
         </div>
 
-        <!-- Floating Characters Container -->
-        <div class="characters-container">
-            <div class="character flying-char-1">
-                <div class="character-avatar avatar-1"></div>
-                <div class="glow-effect glow-1"></div>
-                <div class="trail-effect trail-1"></div>
-            </div>
-            <div class="character flying-char-2">
-                <div class="character-avatar avatar-2"></div>
-                <div class="glow-effect glow-2"></div>
-                <div class="trail-effect trail-2"></div>
-            </div>
-            <div class="character flying-char-3">
-                <div class="character-avatar avatar-3"></div>
-                <div class="glow-effect glow-3"></div>
-                <div class="trail-effect trail-3"></div>
-            </div>
-            <div class="character flying-char-4">
-                <div class="character-avatar avatar-4"></div>
-                <div class="glow-effect glow-4"></div>
-                <div class="trail-effect trail-4"></div>
-            </div>
+        <div class="admin-card">
+          <div class="admin-card-title">Super Admin</div>
+          <div id="superAdminList"></div>
+          <button class="btn btn-gold btn-sm btn-full" onclick="openAddAdminModal()">+ Tambah Super Admin</button>
         </div>
 
-        <!-- Hero Content -->
-        <div class="hero-content">
-            <h1 class="hero-title" id="heroTitle">Welcome to Anime Nexus</h1>
-            <p class="hero-subtitle" id="heroSubtitle">Experience the power of anime characters in action</p>
-            
-            <div class="button-group">
-                <button class="btn btn-primary" id="startBtn">
-                    <span class="btn-text">Start Journey</span>
-                    <span class="btn-icon">→</span>
-                </button>
-                <button class="btn btn-secondary" id="exploreBtn">
-                    <span class="btn-text">Explore More</span>
-                    <span class="btn-icon">✦</span>
-                </button>
-            </div>
+        <div class="admin-card">
+          <div class="admin-card-title">Pengumuman Sistem</div>
+          <div class="announcement-box">
+            <div class="announcement-text" id="currentAnn">Tiada pengumuman semasa</div>
+            <textarea id="newAnnText" rows="3" class="ann-textarea" placeholder="Taip pengumuman baharu..."></textarea>
+            <button class="btn btn-primary btn-sm" onclick="saveAnnouncement()">Simpan Pengumuman</button>
+          </div>
         </div>
 
-        <!-- Floating Elements -->
-        <div class="floating-element element-1"></div>
-        <div class="floating-element element-2"></div>
-        <div class="floating-element element-3"></div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features">
-        <div class="features-container">
-            <h2 class="section-title" id="featuresTitle">Features</h2>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3 class="feature-title" id="feature1Title">Dynamic Graphics</h3>
-                    <p class="feature-description" id="feature1Desc">Stunning anime character animations with realistic effects</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3 class="feature-title" id="feature2Title">Smooth Performance</h3>
-                    <p class="feature-description" id="feature2Desc">Optimized for all devices with 60 FPS animations</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3 class="feature-title" id="feature3Title">Multilingual Support</h3>
-                    <p class="feature-description" id="feature3Desc">Seamlessly switch between English and Malay</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">✨</div>
-                    <h3 class="feature-title" id="feature4Title">Interactive Elements</h3>
-                    <p class="feature-description" id="feature4Desc">Engage with responsive and interactive components</p>
-                </div>
-            </div>
+        <div class="admin-card admin-card-wide">
+          <div class="admin-card-title"> Baserow Spreadsheet Integration (Realtime)</div>
+          <div id="baserowStats" style="margin-bottom:1rem;"></div>
+          <button class="btn btn-accent btn-sm btn-full" onclick="initBaserowSync()"> Sinkron Baserow</button>
+          <div id="baserowTableContainer" class="baserow-table-container"></div>
         </div>
-    </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="cta-content">
-            <h2 class="cta-title" id="ctaTitle">Ready to Begin?</h2>
-            <p class="cta-description" id="ctaDesc">Join thousands of anime enthusiasts worldwide</p>
-            <button class="btn btn-large" id="joinBtn">
-                <span id="joinBtnText">Join Now</span>
-            </button>
-        </div>
-    </section>
+      </div>
+    </div><!-- end sec-admin -->
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p id="footerText">© <span id="yearSpan">2024</span> Anime Nexus. All rights reserved.</p>
-            <p id="footerCredits">Crafted with ❤️ for anime lovers worldwide</p>
-        </div>
-    </footer>
+  </div><!-- end main -->
 
-    <script src="script.js"></script>
+  <footer class="site-footer">
+    <div>
+      <div class="footer-title">JPVS Portal</div>
+      <div class="footer-copy">
+        Sistem Penguatkuasaan Data  Jabatan Perkhidmatan Veterinar &amp; Penyembelihan &copy; 2026.
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="#sec-dashboard">Dashboard</a>
+      <a href="#sec-enforcement">Data Penguatkuasa</a>
+      <a href="#sec-admin">Super Admin</a>
+    </div>
+  </footer>
+
+</div><!-- end appShell -->
+
+<!-- ═════════════════════════
+     MODAL: TAMBAH LOG PERJALANAN
+════════════════════════════════════════ -->
+<div class="modal-overlay" id="travelModal">
+  <div class="modal">
+    <div class="modal-title">Tambah Log Perjalanan</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Tarikh</label><input type="date" id="tl-tarikh"></div>
+      <div class="form-group"><label>Masa Pergi</label><input type="time" id="tl-masapergi"></div>
+      <div class="form-group"><label>Masa Balik</label><input type="time" id="tl-masabalik"></div>
+      <div class="form-group"><label>Pemandu</label><input type="text" id="tl-pemandu" placeholder="Nama pemandu"></div>
+      <div class="form-group form-span-2"><label>Tujuan Perjalanan</label><input type="text" id="tl-tujuan" placeholder="Destinasi / tujuan rasmi"></div>
+      <div class="form-group"><label>Pelulus</label><input type="text" id="tl-pelulus" placeholder="Nama pelulus"></div>
+      <div class="form-group"><label>Pengguna Kenderaan</label><input type="text" id="tl-pengguna" placeholder="Nama pengguna"></div>
+      <div class="form-group"><label>Odometer Mula (km)</label><input type="number" id="tl-odomula" placeholder="0" oninput="calcOdo()"></div>
+      <div class="form-group"><label>Odometer Akhir (km)</label><input type="number" id="tl-odoakhir" placeholder="0" oninput="calcOdo()"></div>
+      <div class="form-group"><label>Jarak KM (Auto)</label><input type="number" id="tl-jarak" readonly class="input-readonly"></div>
+      <div class="form-group"><label>Liter Minyak</label><input type="number" id="tl-liter" placeholder="0.00" step="0.01" oninput="calcFuelCost()"></div>
+      <div class="form-group"><label>Kos RM (Auto)</label><input type="number" id="tl-kos" placeholder="0.00" step="0.01"></div>
+      <div class="form-group"><label>No. Resit</label><input type="text" id="tl-resit" placeholder="e.g. RCP-2025-001"></div>
+      <div class="form-group form-span-2"><label>Nota</label><textarea id="tl-nota" rows="2" placeholder="Nota tambahan..."></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('travelModal')">Batal</button>
+      <button class="btn btn-primary" onclick="saveTravelLog()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- 
+     MODAL: TAMBAH DATA PENGUATKUASA
+ -->
+<div class="modal-overlay" id="enfModal" style="z-index:8001;">
+  <div class="modal modal-wide">
+    <div class="modal-title">Tambah Data Penguatkuasa</div>
+
+    <!-- Maklumat Asas -->
+    <div class="form-grid">
+      <div class="form-group"><label>Tahun</label><input type="number" id="enf-tahun" value="2025" min="2020" max="2099"></div>
+      <div class="form-group"><label>Bulan</label>
+        <select id="enf-bulan">
+          <option value="">Pilih</option>
+          <option>Januari</option><option>Februari</option><option>Mac</option><option>April</option>
+          <option>Mei</option><option>Jun</option><option>Julai</option><option>Ogos</option>
+          <option>September</option><option>Oktober</option><option>November</option><option>Disember</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Penguatkuasa</label><input type="text" id="enf-penguatkuasa" placeholder="Nama"></div>
+      <div class="form-group"><label>Kategori Kes</label>
+        <select id="enf-kategori">
+          <option value="">Pilih</option>
+          <option>Kesalahan Penyembelihan</option><option>Kesalahan Pengangkutan</option>
+          <option>Kesalahan Penjualan</option><option>Kesalahan Import/Eksport</option>
+          <option>Kesalahan Premis</option><option>Lain-lain</option>
+        </select>
+      </div>
+      <div class="form-group"><label>No. Repot Polis</label><input type="text" id="enf-nopolis" placeholder="e.g. P/001/2025"></div>
+      <div class="form-group"><label>Tarikh Kejadian</label><input type="date" id="enf-tarikh"></div>
+      <div class="form-group"><label>Masa Kejadian</label><input type="time" id="enf-masa"></div>
+      <div class="form-group form-span-2"><label>Lokasi Kejadian</label><input type="text" id="enf-lokasi" placeholder="Alamat lengkap lokasi"></div>
+      <div class="form-group form-span-2"><label>Kesalahan</label><input type="text" id="enf-kesalahan" placeholder="Perihal kesalahan"></div>
+      <div class="form-group"><label>Undang-undang</label><input type="text" id="enf-undang" placeholder="e.g. Akta 309 S.8(1)"></div>
+      <div class="form-group"><label>No. Kes IP</label><input type="text" id="enf-noip" placeholder="e.g. IP/001/2025"></div>
+      <div class="form-group"><label>Jenis Rampasan</label><input type="text" id="enf-jenis" placeholder="e.g. Haiwan hidup"></div>
+    </div>
+
+    <!-- Kuantiti Rampasan -->
+    <div class="section-divider">
+      <div class="divider-line"></div>
+      <div class="divider-text">Butiran Rampasan (Kuantiti)</div>
+      <div class="divider-line"></div>
+    </div>
+    <div class="form-grid form-grid-sm">
+      <div class="form-group"><label>Lembu</label><input type="number" id="enf-lembu" value="0" min="0"></div>
+      <div class="form-group"><label>Kerbau</label><input type="number" id="enf-kerbau" value="0" min="0"></div>
+      <div class="form-group"><label>Kambing</label><input type="number" id="enf-kambing" value="0" min="0"></div>
+      <div class="form-group"><label>Bebiri</label><input type="number" id="enf-bebiri" value="0" min="0"></div>
+      <div class="form-group"><label>Babi</label><input type="number" id="enf-babi" value="0" min="0"></div>
+      <div class="form-group"><label>Ayam</label><input type="number" id="enf-ayam" value="0" min="0"></div>
+      <div class="form-group"><label>Karkas Lembu</label><input type="number" id="enf-klembu" value="0" min="0"></div>
+      <div class="form-group"><label>Karkas Kerbau</label><input type="number" id="enf-kkerbau" value="0" min="0"></div>
+      <div class="form-group"><label>Karkas Kambing</label><input type="number" id="enf-kkambing" value="0" min="0"></div>
+      <div class="form-group"><label>Karkas Babi</label><input type="number" id="enf-kbabi" value="0" min="0"></div>
+      <div class="form-group"><label>K.Babi S/Beku</label><input type="number" id="enf-kbabisb" value="0" min="0"></div>
+      <div class="form-group"><label>Karkas Ayam</label><input type="number" id="enf-kayam" value="0" min="0"></div>
+      <div class="form-group"><label>Prd. Itik S/Beku</label><input type="number" id="enf-pitik" value="0" min="0"></div>
+      <div class="form-group"><label>Prd. Ayam S/Beku</label><input type="number" id="enf-payam" value="0" min="0"></div>
+      <div class="form-group"><label>Prd. Babi S/Beku</label><input type="number" id="enf-pbabi" value="0" min="0"></div>
+      <div class="form-group"><label>Haiwan (Tin)</label><input type="number" id="enf-tin" value="0" min="0"></div>
+      <div class="form-group"><label>Anjing</label><input type="number" id="enf-anjing" value="0" min="0"></div>
+      <div class="form-group"><label>Kucing</label><input type="number" id="enf-kucing" value="0" min="0"></div>
+      <div class="form-group"><label>Arnab</label><input type="number" id="enf-arnab" value="0" min="0"></div>
+      <div class="form-group"><label>Burung</label><input type="number" id="enf-burung" value="0" min="0"></div>
+      <div class="form-group"><label>Hamster</label><input type="number" id="enf-hamster" value="0" min="0"></div>
+      <div class="form-group"><label>Lain-lain</label><input type="text" id="enf-lain" value="0"></div>
+    </div>
+
+    <!-- Kenderaan & Nilai -->
+    <div class="section-divider">
+      <div class="divider-line"></div>
+      <div class="divider-text">Kenderaan &amp; Nilai (RM)</div>
+      <div class="divider-line"></div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>Jml Kenderaan</label><input type="number" id="enf-jkdr" value="0" min="0" oninput="calcEnfTotal()"></div>
+      <div class="form-group"><label>Jml Pengangkut/Kontena</label><input type="number" id="enf-jpengangkut" value="0" min="0" oninput="calcEnfTotal()"></div>
+      <div class="form-group"><label>RM (Ekor/KG)</label><input type="number" id="enf-rmek" value="0" step="0.01" oninput="calcEnfTotal()"></div>
+      <div class="form-group"><label>RM (Kenderaan)</label><input type="number" id="enf-rmkdr" value="0" step="0.01" oninput="calcEnfTotal()"></div>
+      <div class="form-group"><label>RM (Pengangkut)</label><input type="number" id="enf-rmpengangkut" value="0" step="0.01" oninput="calcEnfTotal()"></div>
+      <div class="form-group"><label>RM (Lain-lain)</label><input type="number" id="enf-rmlain" value="0" step="0.01" oninput="calcEnfTotal()"></div>
+      <div class="form-group"><label>JUMLAH NILAI RM (Auto)</label><input type="number" id="enf-rmnilai" readonly class="input-readonly input-gold"></div>
+      <div class="form-group"><label>Kes Serahan</label>
+        <select id="enf-serahan">
+          <option value="">Pilih</option>
+          <option>Mahkamah</option><option>Kompaun</option>
+          <option>Dilepaskan</option><option>Dalam Siasatan</option>
+        </select>
+      </div>
+      <div class="form-group form-span-2"><label>Catatan</label><textarea id="enf-catatan" rows="2"></textarea></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('enfModal')">Batal</button>
+      <button class="btn btn-primary" onclick="saveEnfData()">Simpan Kes</button>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript -->
+<script src="app.js"></script>
 </body>
 </html>
